@@ -20,34 +20,31 @@
     text-wrap: balance;
   }
 
-  /* Custom utility for border color */
   .border-border {
     border-color: rgba(var(--border), 1);
   }
 
-  /* Custom utility for background color */
   .bg-background {
-    background-color: var(--background); /* Use the variable for background */
+    background-color: var(--background);
   }
 
-  /* Custom utility for text color */
   .text-foreground {
-    color: var(--foreground); /* Use the variable for text color */
+    color: var(--foreground);
   }
 }
 
 /* Base layer */
 @layer base {
   body {
-    @apply bg-background text-foreground; /* Apply both background and text color */
+    @apply bg-background text-foreground;
   }
 
   * {
-    @apply border-border; /* Apply border color to all elements */
+    @apply border-border;
   }
 }
 
-/* Keyframe for the marquee */
+/* Keyframes for the marquee */
 @keyframes marquee {
   0% {
     transform: translateX(100%);
