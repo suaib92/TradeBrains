@@ -15,22 +15,15 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-// You can define the metadata here if needed
-export const metadata = {
-  title: 'Acme Dashboard',
-  description: 'The official Next.js Course Dashboard, built with App Router.',
-  metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
-};
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <Head>
         {/* Set up META tags for SEO */}
-        <meta name="description" content={metadata.description} />
+        <meta name="description" content="The official Next.js Course Dashboard, built with App Router." />
         <meta name="keywords" content="keyword1, keyword2, keyword3" />
         <meta name="author" content="Your Name" />
-        <title>{metadata.title}</title>
+        <title>Acme Dashboard</title>
       </Head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
