@@ -46,3 +46,27 @@
     @apply border-border; /* Apply border color to all elements */
   }
 }
+
+/* Keyframe for the marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Wrapper ensures the ticker content scrolls smoothly */
+.ticker-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Ticker content animation */
+.ticker-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 40s linear infinite;
+}

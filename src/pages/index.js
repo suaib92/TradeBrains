@@ -1,11 +1,15 @@
+// pages/index.js
 import StockSearch from '../components/SearchBar';
 import Navbar from '../components/Navbar';
+import Ticker from '../components/Ticker';
 import Link from 'next/link';
+
 
 export default function Home() {
   return (
     <div>
       <Navbar />
+      <Ticker /> {/* Add Ticker component here */}
 
       {/* Hero Section with Search */}
       <div className="bg-gradient-to-br from-blue-500 to-purple-600 py-16 text-center text-white">
