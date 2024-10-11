@@ -1,7 +1,7 @@
 "use client"; // Include this only if needed
 
 import localFont from "next/font/local";
-import "./globals.css";
+
 import Head from "next/head"; // Import Head component
 
 const geistSans = localFont({
