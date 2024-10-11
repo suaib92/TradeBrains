@@ -12,8 +12,8 @@ const Navbar = () => {
         <Link href="/movers" legacyBehavior>
           <a className="px-4">NIFTY Movers</a>
         </Link>
-        <Link href="/stocks" legacyBehavior>
-          <a className="px-4">Stocks</a>
+        <Link href="/favorites" legacyBehavior>
+          <a className="px-4">favorites</a>
         </Link>
       </div>
     </nav>

@@ -26,65 +26,140 @@ const NiftyMovers = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-10">NIFTY Movers</h1>
-
+    <div className="container mx-auto p-6 bg-gradient-to-r from-blue-100 to-purple-200 min-h-screen">
+      <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-10 drop-shadow-lg">NIFTY Movers</h1>
+  
       {/* Gainers Section */}
-      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 transition transform hover:scale-105">
+      <div className="bg-white shadow-xl rounded-lg p-6 mb-8 transition transform hover:scale-105 hover:shadow-2xl">
         <h2 className="text-3xl font-semibold text-green-700 mb-4">Top Gainers</h2>
         {gainers.length === 0 ? (
           <p className="text-center text-gray-600">No gainers data available.</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {gainers.map((stock) => (
-              <div key={stock.id} className="border rounded-lg p-4 shadow-lg bg-green-50 hover:bg-green-100 transition">
-                <strong className="text-lg text-green-800">{stock.comp_name} ({stock.symbol})</strong>
-                <p className="text-gray-600">Close: ₹{stock.close} | Open: ₹{stock.open} | High: ₹{stock.high} | Low: ₹{stock.low}</p>
-                <p>Change: <span className={stock.change >= 0 ? 'text-green-600' : 'text-red-600'}>{stock.change}</span></p>
-                <p className="text-gray-600">Percentage Change: {stock.percent.toFixed(2)}% | Market Cap: ₹{stock.mcap.toLocaleString()} | Volume: {stock.volume.toLocaleString()}</p>
-                <em className="text-gray-500">Date: {new Date(stock.date).toLocaleString()}</em>
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-green-50 rounded-lg">
+              <thead className="bg-green-300">
+                <tr>
+                  <th className="px-4 py-2 border">Company Name</th>
+                  <th className="px-4 py-2 border">Symbol</th>
+                  <th className="px-4 py-2 border">Open</th>
+                  <th className="px-4 py-2 border">Close</th>
+                  <th className="px-4 py-2 border">High</th>
+                  <th className="px-4 py-2 border">Low</th>
+                  <th className="px-4 py-2 border">Change</th>
+                  <th className="px-4 py-2 border">Percentage</th>
+                  <th className="px-4 py-2 border">Market Cap</th>
+                  <th className="px-4 py-2 border">Volume</th>
+                  <th className="px-4 py-2 border">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {gainers.map((stock) => (
+                  <tr key={stock.id} className="hover:bg-green-100">
+                    <td className="px-4 py-2 border">{stock.comp_name}</td>
+                    <td className="px-4 py-2 border">{stock.symbol}</td>
+                    <td className="px-4 py-2 border">₹{stock.open}</td>
+                    <td className="px-4 py-2 border">₹{stock.close}</td>
+                    <td className="px-4 py-2 border">₹{stock.high}</td>
+                    <td className="px-4 py-2 border">₹{stock.low}</td>
+                    <td className={`px-4 py-2 border ${stock.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>{stock.change}</td>
+                    <td className="px-4 py-2 border">{stock.percent.toFixed(2)}%</td>
+                    <td className="px-4 py-2 border">₹{stock.mcap.toLocaleString()}</td>
+                    <td className="px-4 py-2 border">{stock.volume.toLocaleString()}</td>
+                    <td className="px-4 py-2 border">{new Date(stock.date).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
-
+  
       {/* Losers Section */}
-      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 transition transform hover:scale-105">
+      <div className="bg-white shadow-xl rounded-lg p-6 mb-8 transition transform hover:scale-105 hover:shadow-2xl">
         <h2 className="text-3xl font-semibold text-red-700 mb-4">Top Losers</h2>
         {losers.length === 0 ? (
           <p className="text-center text-gray-600">No losers data available.</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {losers.map((stock) => (
-              <div key={stock.id} className="border rounded-lg p-4 shadow-lg bg-red-50 hover:bg-red-100 transition">
-                <strong className="text-lg text-red-800">{stock.comp_name} ({stock.symbol})</strong>
-                <p className="text-gray-600">Close: ₹{stock.close} | Open: ₹{stock.open} | High: ₹{stock.high} | Low: ₹{stock.low}</p>
-                <p>Change: <span className={stock.change >= 0 ? 'text-green-600' : 'text-red-600'}>{stock.change}</span></p>
-                <p className="text-gray-600">Percentage Change: {stock.percent.toFixed(2)}% | Market Cap: ₹{stock.mcap.toLocaleString()} | Volume: {stock.volume.toLocaleString()}</p>
-                <em className="text-gray-500">Date: {new Date(stock.date).toLocaleString()}</em>
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-red-50 rounded-lg">
+              <thead className="bg-red-300">
+                <tr>
+                  <th className="px-4 py-2 border">Company Name</th>
+                  <th className="px-4 py-2 border">Symbol</th>
+                  <th className="px-4 py-2 border">Open</th>
+                  <th className="px-4 py-2 border">Close</th>
+                  <th className="px-4 py-2 border">High</th>
+                  <th className="px-4 py-2 border">Low</th>
+                  <th className="px-4 py-2 border">Change</th>
+                  <th className="px-4 py-2 border">Percentage</th>
+                  <th className="px-4 py-2 border">Market Cap</th>
+                  <th className="px-4 py-2 border">Volume</th>
+                  <th className="px-4 py-2 border">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {losers.map((stock) => (
+                  <tr key={stock.id} className="hover:bg-red-100">
+                    <td className="px-4 py-2 border">{stock.comp_name}</td>
+                    <td className="px-4 py-2 border">{stock.symbol}</td>
+                    <td className="px-4 py-2 border">₹{stock.open}</td>
+                    <td className="px-4 py-2 border">₹{stock.close}</td>
+                    <td className="px-4 py-2 border">₹{stock.high}</td>
+                    <td className="px-4 py-2 border">₹{stock.low}</td>
+                    <td className={`px-4 py-2 border ${stock.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>{stock.change}</td>
+                    <td className="px-4 py-2 border">{stock.percent.toFixed(2)}%</td>
+                    <td className="px-4 py-2 border">₹{stock.mcap.toLocaleString()}</td>
+                    <td className="px-4 py-2 border">{stock.volume.toLocaleString()}</td>
+                    <td className="px-4 py-2 border">{new Date(stock.date).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
-
+  
       {/* Volume Movers Section */}
-      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 transition transform hover:scale-105">
+      <div className="bg-white shadow-xl rounded-lg p-6 mb-8 transition transform hover:scale-105 hover:shadow-2xl">
         <h2 className="text-3xl font-semibold text-indigo-700 mb-4">Top Volume Movers</h2>
         {volumeMovers.length === 0 ? (
           <p className="text-center text-gray-600">No volume movers data available.</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {volumeMovers.map((stock) => (
-              <div key={stock.id} className="border rounded-lg p-4 shadow-lg bg-indigo-50 hover:bg-indigo-100 transition">
-                <strong className="text-lg text-indigo-800">{stock.comp_name} ({stock.symbol})</strong>
-                <p className="text-gray-600">Close: ₹{stock.close} | Open: ₹{stock.open} | High: ₹{stock.high} | Low: ₹{stock.low}</p>
-                <p>Change: <span className={stock.change >= 0 ? 'text-green-600' : 'text-red-600'}>{stock.change}</span></p>
-                <p className="text-gray-600">Percentage Change: {stock.percent.toFixed(2)}% | Market Cap: ₹{stock.mcap.toLocaleString()} | Volume: {stock.volume.toLocaleString()}</p>
-                <em className="text-gray-500">Date: {new Date(stock.date).toLocaleString()}</em>
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-indigo-50 rounded-lg">
+              <thead className="bg-indigo-300">
+                <tr>
+                  <th className="px-4 py-2 border">Company Name</th>
+                  <th className="px-4 py-2 border">Symbol</th>
+                  <th className="px-4 py-2 border">Open</th>
+                  <th className="px-4 py-2 border">Close</th>
+                  <th className="px-4 py-2 border">High</th>
+                  <th className="px-4 py-2 border">Low</th>
+                  <th className="px-4 py-2 border">Change</th>
+                  <th className="px-4 py-2 border">Percentage</th>
+                  <th className="px-4 py-2 border">Market Cap</th>
+                  <th className="px-4 py-2 border">Volume</th>
+                  <th className="px-4 py-2 border">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {volumeMovers.map((stock) => (
+                  <tr key={stock.id} className="hover:bg-indigo-100">
+                    <td className="px-4 py-2 border">{stock.comp_name}</td>
+                    <td className="px-4 py-2 border">{stock.symbol}</td>
+                    <td className="px-4 py-2 border">₹{stock.open}</td>
+                    <td className="px-4 py-2 border">₹{stock.close}</td>
+                    <td className="px-4 py-2 border">₹{stock.high}</td>
+                    <td className="px-4 py-2 border">₹{stock.low}</td>
+                    <td className={`px-4 py-2 border ${stock.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>{stock.change}</td>
+                    <td className="px-4 py-2 border">{stock.percent.toFixed(2)}%</td>
+                    <td className="px-4 py-2 border">₹{stock.mcap.toLocaleString()}</td>
+                    <td className="px-4 py-2 border">{stock.volume.toLocaleString()}</td>
+                    <td className="px-4 py-2 border">{new Date(stock.date).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
