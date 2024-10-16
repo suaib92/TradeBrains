@@ -1,4 +1,3 @@
-// pages/stocks/[symbol].js
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -35,35 +34,36 @@ const StockDetails = () => {
   const [priceData, setPriceData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [timeRange, setTimeRange] = useState("30d"); // New state for time range
 
   useEffect(() => {
     if (symbol) {
-      const fetchStockData = async () => {
-        setLoading(true);
-        try {
-          // Fetch stock details
-          const response = await axios.get(
-            `https://portal.tradebrains.in/api/assignment/stock/${symbol}/prices?days=1&type=INTRADAY&limit=1`
-          );
-          const data = response.data[0];
-          setStockData(data);
-
-          // Fetch historical price data for the chart
-          const historicalResponse = await axios.get(
-            `https://portal.tradebrains.in/api/assignment/stock/${symbol}/prices?days=30&type=INTRADAY`
-          );
-          setPriceData(historicalResponse.data);
-        } catch (error) {
-          console.error("Error fetching stock details:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchStockData();
+      fetchStockData(); // Fetch stock data based on the symbol and time range
       checkIfFavorite(); // Check if the stock is a favorite on load
     }
-  }, [symbol]);
+  }, [symbol, timeRange]);
+
+  const fetchStockData = async () => {
+    setLoading(true);
+    try {
+      // Fetch historical price data for the chart based on time range
+      const historicalResponse = await axios.get(
+        `https://portal.tradebrains.in/api/assignment/stock/${symbol}/prices?days=${timeRange}&type=INTRADAY`
+      );
+      setPriceData(historicalResponse.data);
+
+      // Fetch stock details
+      const response = await axios.get(
+        `https://portal.tradebrains.in/api/assignment/stock/${symbol}/prices?days=1&type=INTRADAY&limit=1`
+      );
+      const data = response.data[0];
+      setStockData(data);
+    } catch (error) {
+      console.error("Error fetching stock details:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Save stock to favorites
   const saveToFavorites = () => {
@@ -240,62 +240,80 @@ const StockDetails = () => {
                     {stockData.volume || "N/A"}
                   </span>
                 </p>
-                <p className="text-gray-700">
-                  <strong>Market Value:</strong>{" "}
-                  <span className="text-gray-500">
-                    ₹
-                    {stockData.value ? stockData.value.toLocaleString() : "N/A"}
-                  </span>
-                </p>
-                <p className="text-gray-700">
-                  <strong>Date:</strong>{" "}
-                  <span className="text-gray-500">
-                    {stockData.date
-                      ? new Date(stockData.date).toLocaleString()
-                      : "N/A"}
-                  </span>
-                </p>
               </div>
 
-              {/* Pie Chart (Smaller Size) */}
-              <div className="bg-black p-4 rounded-lg transition duration-300 hover:shadow-xl">
-                <h2 className="text-xl font-semibold text-center text-white">
+              {/* Pie Chart */}
+              <div className="bg-black p-6 rounded-lg transition duration-300 hover:shadow-xl">
+                <h2 className="text-2xl font-semibold text-center text-white mb-4">
                   Price Distribution
                 </h2>
-                <div className="flex justify-center">
-                  <Pie
-                    data={pieChartData}
-                    options={{ responsive: true, maintainAspectRatio: false }}
-                    height={200}
-                    width={200}
-                  />
+                <div className="flex justify-center items-center">
+                  <div className="relative w-full h-60 md:h-72">
+                    <Pie
+                      data={pieChartData}
+                      options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Second Row: Line and Bar Charts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-              {/* Line Chart */}
-              <div className="h-60 bg-black p-4 rounded-lg transition duration-300 hover:shadow-xl">
-                <h2 className="text-xl font-semibold text-center text-white">
-                  Closing Price - Last 30 Days
-                </h2>
-                <Line
-                  data={lineChartData}
-                  options={{ responsive: true, maintainAspectRatio: false }}
-                />
-              </div>
+            {/* Time Range Buttons */}
+            <div className="flex justify-center space-x-4 mt-4">
+              <button
+                onClick={() => setTimeRange("1d")}
+                className={`px-4 py-2 rounded-lg ${
+                  timeRange === "1d" ? "bg-blue-600" : "bg-gray-300"
+                }`}
+              >
+                1D
+              </button>
+              <button
+                onClick={() => setTimeRange("30d")}
+                className={`px-4 py-2 rounded-lg ${
+                  timeRange === "30d" ? "bg-blue-600" : "bg-gray-300"
+                }`}
+              >
+                1M
+              </button>
+              <button
+                onClick={() => setTimeRange("365d")}
+                className={`px-4 py-2 rounded-lg ${
+                  timeRange === "365d" ? "bg-blue-600" : "bg-gray-300"
+                }`}
+              >
+                1Y
+              </button>
+            </div>
 
-              {/* Bar Chart */}
-              <div className="h-60 bg-black p-4 rounded-lg transition duration-300 hover:shadow-xl">
-                <h2 className="text-xl font-semibold text-center text-white">
-                  Volume - Last 30 Days
-                </h2>
-                <Bar
-                  data={barChartData}
-                  options={{ responsive: true, maintainAspectRatio: false }}
-                />
-              </div>
+            {/* Line Chart */}
+            <div className="h-60 bg-black p-4 rounded-lg mt-4 transition duration-300 hover:shadow-xl">
+              <h2 className="text-xl font-semibold text-center text-white">
+                Closing Price -{" "}
+                {timeRange === "1d"
+                  ? "1 Day"
+                  : timeRange === "30d"
+                  ? "1 Month"
+                  : "1 Year"}
+              </h2>
+              <Line
+                data={lineChartData}
+                options={{ responsive: true, maintainAspectRatio: false }}
+              />
+            </div>
+
+            {/* Bar Chart */}
+            <div className="h-60 bg-black p-4 rounded-lg mt-4 transition duration-300 hover:shadow-xl">
+              <h2 className="text-xl font-semibold text-center text-white">
+                Volume - Last 30 Days
+              </h2>
+              <Bar
+                data={barChartData}
+                options={{ responsive: true, maintainAspectRatio: false }}
+              />
             </div>
           </div>
         ) : (
